@@ -54,7 +54,7 @@ void makeNetwork(network<mse, adagrad> & nn) {
   nn
 #ifdef OFFLOAD
       << chaninterleave_layer<identity>(3, 32*32, false)
-      << offloaded_layer(3*32*32, 10, &FixedFoldedMVOffload<8, 1>, 0xdeadbeef, 0)
+      << offloaded_layer(3*32*32, 10, &FixedFoldedMVOffload<5, 1>, 0xdeadbeef, 0)
 #endif
       ;
 }
@@ -70,13 +70,22 @@ makeNetwork(nn);
         cout << "Setting network weights and thresholds in accelerator..." << endl;
         FoldedMVLoadLayerMem(path , 0, L0_PE, L0_WMEM, L0_TMEM);
         FoldedMVLoadLayerMem(path , 1, L1_PE, L1_WMEM, L1_TMEM);
+        //FoldedMVLoadLayerMem(path , 2, L01_PE, L01_WMEM, L01_TMEM);
+        //FoldedMVLoadLayerMem(path , 3, L11_PE, L11_WMEM, L11_TMEM);
         FoldedMVLoadLayerMem(path , 2, L2_PE, L2_WMEM, L2_TMEM);
-        FoldedMVLoadLayerMem(path , 3, L3_PE, L3_WMEM, L3_TMEM);
-        FoldedMVLoadLayerMem(path , 4, L4_PE, L4_WMEM, L4_TMEM);
-        FoldedMVLoadLayerMem(path , 5, L5_PE, L5_WMEM, L5_TMEM);
-        FoldedMVLoadLayerMem(path , 6, L6_PE, L6_WMEM, L6_TMEM);
-        FoldedMVLoadLayerMem(path , 7, L7_PE, L7_WMEM, L7_TMEM);
-        FoldedMVLoadLayerMem(path , 8, L8_PE, L8_WMEM, L8_TMEM);
+        //FoldedMVLoadLayerMem(path , 5, L3_PE, L3_WMEM, L3_TMEM);
+        //FoldedMVLoadLayerMem(path , 6, L4_PE, L4_WMEM, L4_TMEM);
+        //FoldedMVLoadLayerMem(path , 7, L5_PE, L5_WMEM, L5_TMEM);
+        FoldedMVLoadLayerMem(path , 3, L6_PE, L6_WMEM, L6_TMEM);
+        FoldedMVLoadLayerMem(path , 4, L7_PE, L7_WMEM, L7_TMEM);
+        FoldedMVLoadLayerMem(path , 5, L8_PE, L8_WMEM, L8_TMEM);
+        //FoldedMVLoadLayerMem(path , 2, L2_PE, L2_WMEM, L2_TMEM);
+        //FoldedMVLoadLayerMem(path , 3, L3_PE, L3_WMEM, L3_TMEM);
+        //FoldedMVLoadLayerMem(path , 4, L4_PE, L4_WMEM, L4_TMEM);
+        //FoldedMVLoadLayerMem(path , 5, L5_PE, L5_WMEM, L5_TMEM);
+        //FoldedMVLoadLayerMem(path , 6, L6_PE, L6_WMEM, L6_TMEM);
+        //FoldedMVLoadLayerMem(path , 7, L7_PE, L7_WMEM, L7_TMEM);
+        //FoldedMVLoadLayerMem(path , 8, L8_PE, L8_WMEM, L8_TMEM);
 }
 
 extern "C" unsigned int inference(const char* path, unsigned int results[64], int number_class, float *usecPerImage)

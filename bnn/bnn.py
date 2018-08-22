@@ -70,6 +70,7 @@ class PynqBNN:
                 else:
                     raise RuntimeError("Incorrect Overlay loaded")
         dllname = "{0}-{1}.so".format(runtime, network)
+        print(dllname)
         if dllname not in _libraries:
             _libraries[dllname] = _ffi.dlopen(
 		os.path.join(BNN_LIB_DIR, dllname))
@@ -199,7 +200,8 @@ def available_params(network):
     for d in options:
         if os.path.isdir(os.path.join(BNN_PARAM_DIR, d)):
             test_lfc = os.path.join(BNN_PARAM_DIR, d, '1-63-thres.bin')
-            test_cnv = os.path.join(BNN_PARAM_DIR, d, '8-3-thres.bin')
+            #test_cnv = os.path.join(BNN_PARAM_DIR, d, '8-0-thres.bin')
+            test_cnv = os.path.join(BNN_PARAM_DIR, d, '5-0-thres.bin')
             if network == NETWORK_LFC and os.path.exists(test_lfc):
                ret.append(d)
             if network == NETWORK_CNV and os.path.exists(test_cnv):
